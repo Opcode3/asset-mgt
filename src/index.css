@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #004481; /* Corporate Blue */
+  --color-brand-secondary: #00a676; /* Teal Green */
+
+  --color-alert-success: #28a745; /* Profit / Confirmation */
+  --color-alert-warning: #ffc107; /* Caution / Pending */
+  --color-alert-error: #dc3545; /* Loss / Error */
+
+  --color-text-primary: #212529; /* Main Text */
+  --color-text-secondary: #6c757d; /* Labels / Subtext */
+  --color-text-muted: #adb5bd; /* Disabled */
+
+  --color-surface-background: #f8f9fa; /* Dashboard Background */
+  --color-surface-card: #ffffff; /* Panels / Cards */
+  --color-surface-border: #dee2e6; /* Dividers */
+}
+
+body {
+  background-color: white;
+}

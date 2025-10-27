@@ -1,0 +1,58 @@
+import UploadWidget from "../general/UploadWidget";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { FiUploadCloud } from "react-icons/fi";
+
+type CloudinaryUploadType = {
+  setImage: (str: string) => void;
+  image: string;
+  error?: string;
+  label?: string;
+};
+export default function CloudinaryUpload({
+  setImage,
+  image,
+  error = "",
+  label = "Upload Image",
+}: CloudinaryUploadType) {
+  return (
+    <div className=" w-full relative mb-1.5">
+      <label
+        htmlFor="upload_bg"
+        className="block text-[13px] lg:text-sm font-normal text-secondary mb-0.5 "
+      >
+        {label}
+      </label>
+      <UploadWidget
+        onUpload={(error, result) => {
+          if (result?.event === "success") {
+            console.log("Upload successful:", result.info.secure_url);
+            setImage(result.info.secure_url);
+          } else {
+            console.log(error);
+          }
+        }}
+      >
+        {({ open }) => (
+          <button
+            onClick={open}
+            disabled={image != "" && image.trim().length > 6}
+            className={` ${image != "" && image.trim().length > 6 ? "bg-primary/20" : ""} text-[13px] xs:text-sm md:text-base border border-gray-300 rounded-lg w-full p-2 grid grid-cols-[auto_30px] gap-3 items-center`}
+          >
+            {image != "" && image.trim().length > 6 ? (
+              <>
+                Image Uploaded
+                <IoCheckmarkDoneCircle className="text-primary size-6" />
+              </>
+            ) : (
+              <>
+                Click to Upload Image
+                <FiUploadCloud className="text-gray-400 size-5" />
+              </>
+            )}
+          </button>
+        )}
+      </UploadWidget>
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    </div>
+  );
+}
