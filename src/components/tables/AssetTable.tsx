@@ -86,7 +86,7 @@ export function AssetTable() {
       {
         id: "actions",
         header: "",
-        cell: ({ row }) => {
+        cell: () => {
           return (
             <div className="flex justify-end gap-2 font-medium text-sm ">
               <button

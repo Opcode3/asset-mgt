@@ -38,7 +38,7 @@ export default function AddAssetModal() {
     console.log({ formData, data });
 
     addAsset(data, {
-      onSuccess: (res) => {
+      onSuccess: () => {
         // toast.success("Asset added successfully 🎉");
         resetWhich();
         closeModal();

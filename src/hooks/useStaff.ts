@@ -88,7 +88,7 @@ export function useStaff() {
   const addStaff = useMutation({
     mutationFn: (credentials: UserPayload) =>
       authService.createUser(credentials, token),
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff_list"] });
       navigate({ to: "/dashboard" });
     },

@@ -46,13 +46,12 @@ export const authService = {
 
   // Users
   getStaffList: async (token: string | null): Promise<UserResponseType[]> => {
-    const response = await api.get<UserResponseType[]>("/users", {
+    const response = await api.get<{ data: UserResponseType[] }>("/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log(" and " + token);
     return response.data.data;
   },
 };

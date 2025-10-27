@@ -2,13 +2,11 @@ import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
 
-import { useNavigate } from "@tanstack/react-router";
 import type { UserResponseType } from "../../types/auth";
 import { useStaff } from "../../hooks/useStaff";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 
 export function StaffTable() {
-  
   const { staffs, isLoading } = useStaff();
 
   console.log({ staffs });
@@ -79,7 +77,7 @@ export function StaffTable() {
       {
         id: "actions",
         header: "",
-        cell: ({ row }) => {
+        cell: () => {
           return (
             <div className="flex justify-end gap-2 font-medium text-sm ">
               <button

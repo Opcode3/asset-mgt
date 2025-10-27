@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../store/authStore";
 import { authService } from "../services/authService";
-import type { LoginCredentials, UserResponseType } from "../types/auth";
+import type { LoginCredentials } from "../types/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -37,7 +37,7 @@ export const useRefreshToken = () => {
   });
 };
 
-export const verifyAccountEmail = async () => {
+export const verifyAccountEmail = () => {
   return useMutation({
     mutationFn: (token: string) => authService.verifyEmail(token),
   });
