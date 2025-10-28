@@ -5,6 +5,8 @@ import { HiOutlineXMark } from "react-icons/hi2";
 // import ChangeNameModal from "./modal/ChangeNameModal";
 import AddStaffModal from "./modals/AddStaffModal";
 import AddAssetModal from "./modals/AddAssetModal";
+import AssignAssetModal from "./modals/AssignAssetModal";
+import ViewAssignmentModal from "./modals/ViewAssignmentModal";
 
 export const Modal = () => {
   const { isOpen, closeModal, which, resetWhich } = useModalStore();
@@ -55,6 +57,12 @@ function loadUi(type: WhichType) {
       return <AddStaffModal />;
     case "add_asset":
       return <AddAssetModal />;
+    case "assign_asset":
+      return <AssignAssetModal />;
+
+    case "view_assigned_asset":
+      return <ViewAssignmentModal />;
+
     default:
       break;
   }

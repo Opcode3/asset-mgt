@@ -5,9 +5,11 @@ import { DataTable } from "./DataTable";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useAssets } from "../../hooks/useAssets";
 import type { AssetResponseType } from "../../types/asset";
+import { useModalStore } from "../../store/modalStore";
 
 export function AssetTable() {
   const { assets, isLoading } = useAssets();
+  const { openModal, setWhich, setData } = useModalStore();
 
   const columns = useMemo<ColumnDef<AssetResponseType>[]>(
     () => [
@@ -86,7 +88,7 @@ export function AssetTable() {
       {
         id: "actions",
         header: "",
-        cell: () => {
+        cell: ({ row }) => {
           return (
             <div className="flex justify-end gap-2 font-medium text-sm ">
               <button
@@ -98,6 +100,16 @@ export function AssetTable() {
                 className="py-2 px-2 rounded-md bg-blue-500 text-white"
               >
                 Edit Asset
+              </button>
+              <button
+                onClick={() => {
+                  setData(row.original);
+                  setWhich("assign_asset");
+                  openModal();
+                }}
+                className="py-2 px-2 rounded-md bg-green-500 text-white"
+              >
+                Assign Asset
               </button>
             </div>
           );

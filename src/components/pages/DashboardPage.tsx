@@ -68,7 +68,7 @@ export default function DashboardPage() {
               // bgColor=" border border-gray-200 !text-black"
             />
           )}
-
+          {/* 
           {tab == "assignments" && (
             <Button
               text="Assign Asset"
@@ -77,7 +77,7 @@ export default function DashboardPage() {
 
               // bgColor=" border border-gray-200 !text-black"
             />
-          )}
+          )} */}
         </div>
       </div>
       <TablesWrapper />

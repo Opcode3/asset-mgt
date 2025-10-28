@@ -5,7 +5,7 @@ import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "@tanstack/react-router";
 import { assetService } from "../services/assetService";
 import { useTabStore } from "../store/tabStore";
-import type { AssetResponseType } from "../types/asset";
+import type { AssetResponseType, AssignmentResponseType } from "../types/asset";
 
 // --------------------------------
 // ✅ Types
@@ -34,9 +34,10 @@ export type AssetPayload = {
 
 export type AssignmentPayload = {
   assetId: string;
-  assignedTo: string;
-  assignedBy: string;
+  assignedToEmail: string;
+  assignedToName: string;
   comment?: string;
+  returnedComment?: string;
 };
 
 // --------------------------------
@@ -74,6 +75,18 @@ export function useAssets() {
     },
   });
 
+  const {
+    data: returnedAssets,
+    isLoading: isReturning,
+    error: returnedError,
+  } = useQuery<AssignmentResponseType[]>({
+    queryKey: ["assgned_assets_list"],
+    queryFn: async () => {
+      const res = await assetService.getAllAssignedAssets(token);
+      return res;
+    },
+  });
+
   // ➕ POST new asset (with images)
   const addAsset = useMutation({
     mutationFn: (payload: FormData) => assetService.createAsset(payload, token),
@@ -94,9 +107,9 @@ export function useAssets() {
   // 🧾 Assign asset
   const assignAsset = useMutation({
     mutationFn: (payload: AssignmentPayload) =>
-      assetService.assignAsset(payload.assetId, payload, token),
+      assetService.assignAsset(payload, token),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["assets_list"] });
+      queryClient.invalidateQueries({ queryKey: ["assgned_assets_list"] });
       toast.success("Asset assigned successfully!");
     },
     onError: (error: any) => {
@@ -111,7 +124,10 @@ export function useAssets() {
     assets,
     isLoading,
     error,
+    returnedAssets,
+    isReturning,
+    returnedError,
     addAsset: addAsset.mutate,
-    assignAsset: assignAsset.mutate,
+    addAssignAsset: assignAsset.mutate,
   };
 }
