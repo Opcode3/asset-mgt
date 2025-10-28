@@ -5,11 +5,12 @@ export type WhichType =
   | "add_staff"
   | "assign_asset"
   | "view_assigned_asset"
+  | "return_asset"
   | null;
 interface ModalStore {
   isOpen: boolean;
   which: WhichType;
-  data: AssetResponseType | AssignmentResponseType | null;
+  data: AssetResponseType | AssignmentResponseType | UserResponseType | null;
   resetWhich: () => void;
   setWhich: (which: WhichType) => void;
   setData: (data: AssetResponseType | AssignmentResponseType | null) => void;
@@ -19,6 +20,7 @@ interface ModalStore {
 
 import { persist } from "zustand/middleware";
 import type { AssetResponseType, AssignmentResponseType } from "../types/asset";
+import type { UserResponseType } from "../types/auth";
 // import type { TMResponseType } from "../hooks/useTM";
 export const useModalStore = create<ModalStore>()(
   // devtools(

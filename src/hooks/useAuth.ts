@@ -42,3 +42,10 @@ export const verifyAccountEmail = () => {
     mutationFn: (token: string) => authService.verifyEmail(token),
   });
 };
+
+
+export const signAssetAgreement = () => {
+  return useMutation({
+    mutationFn: (token: string) => authService.signAssetAgreement(token),
+  });
+};

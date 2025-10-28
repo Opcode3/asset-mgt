@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as AssetAgreementRouteImport } from './routes/asset-agreement'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
   path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetAgreementRoute = AssetAgreementRouteImport.update({
+  id: '/asset-agreement',
+  path: '/asset-agreement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/verify-email' | '/dashboard'
+  fullPaths: '/' | '/asset-agreement' | '/verify-email' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/verify-email' | '/dashboard'
-  id: '__root__' | '/' | '/verify-email' | '/dashboard/'
+  to: '/' | '/asset-agreement' | '/verify-email' | '/dashboard'
+  id: '__root__' | '/' | '/asset-agreement' | '/verify-email' | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssetAgreementRoute: typeof AssetAgreementRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/verify-email'
       fullPath: '/verify-email'
       preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asset-agreement': {
+      id: '/asset-agreement'
+      path: '/asset-agreement'
+      fullPath: '/asset-agreement'
+      preLoaderRoute: typeof AssetAgreementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssetAgreementRoute: AssetAgreementRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }

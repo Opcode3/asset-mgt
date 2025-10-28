@@ -6,6 +6,7 @@ import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useAssets } from "../../hooks/useAssets";
 import type { AssetResponseType } from "../../types/asset";
 import { useModalStore } from "../../store/modalStore";
+import { TableSkeleton } from "../TableSkeleton";
 
 export function AssetTable() {
   const { assets, isLoading } = useAssets();
@@ -119,7 +120,9 @@ export function AssetTable() {
     []
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <TableSkeleton rows={4} columns={7} />;
+  }
 
   return (
     <div className=" flex flex-col gap-6 ">

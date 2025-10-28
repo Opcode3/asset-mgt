@@ -15,7 +15,7 @@ export default function ViewAssignmentModal() {
     );
   }
 
-  const { asset, assignedTo, assignedBy } = assignment;
+  const { asset, assignedTo, assignedBy, collectedBy } = assignment;
 
   return (
     <div className="flex flex-col gap-6 xl:gap-5 md:w-[600px] max-w-full">
@@ -107,6 +107,28 @@ export default function ViewAssignmentModal() {
               <p>
                 <span className="font-medium">Role:</span>{" "}
                 <span className="capitalize">{assignedBy.role}</span>
+              </p>
+            </div>
+          )}
+
+          {collectedBy && (
+            <div className="pt-2">
+              <h4 className="font-semibold text-gray-700 text-sm mb-1">
+                Collected By
+              </h4>
+              <p>
+                <span className="font-medium">Name:</span> {collectedBy.name}
+              </p>
+              <p>
+                <span className="font-medium">Email:</span> {collectedBy.email}
+              </p>
+              <p>
+                <span className="font-medium">Role:</span>{" "}
+                <span className="capitalize">{collectedBy.role}</span>
+              </p>
+              <p>
+                <span className="font-medium">Returned On:</span>{" "}
+                {formatReadableDate(assignment.updatedAt)}
               </p>
             </div>
           )}

@@ -40,6 +40,12 @@ export type AssignmentPayload = {
   returnedComment?: string;
 };
 
+export type ReturnAssignmentPayload = {
+  assignmentId: string;
+  returnedComment: string;
+  assetStatus: string; // This will be used to update the asset's status
+};
+
 // --------------------------------
 // ✅ Zustand Store
 // --------------------------------
@@ -76,13 +82,25 @@ export function useAssets() {
   });
 
   const {
-    data: returnedAssets,
-    isLoading: isReturning,
-    error: returnedError,
+    data: assignedAssets,
+    isLoading: isAssigning,
+    error: assignedError,
   } = useQuery<AssignmentResponseType[]>({
     queryKey: ["assgned_assets_list"],
     queryFn: async () => {
       const res = await assetService.getAllAssignedAssets(token);
+      return res;
+    },
+  });
+
+  const {
+    data: returnedAssets,
+    isLoading: isReturning,
+    error: returnedError,
+  } = useQuery<AssignmentResponseType[]>({
+    queryKey: ["returned_assets_list"],
+    queryFn: async () => {
+      const res = await assetService.getAllReturnedAssets(token);
       return res;
     },
   });
@@ -110,7 +128,25 @@ export function useAssets() {
       assetService.assignAsset(payload, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["assgned_assets_list"] });
+      queryClient.invalidateQueries({ queryKey: ["assets_list"] });
       toast.success("Asset assigned successfully!");
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        "Failed to assign asset. Please try again.";
+      toast.error(message);
+    },
+  });
+
+  const returnAsset = useMutation({
+    mutationFn: (payload: ReturnAssignmentPayload) =>
+      assetService.returnedAsset(payload, token),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["assets_list"] });
+      queryClient.invalidateQueries({ queryKey: ["returned_assets_list"] });
+      queryClient.invalidateQueries({ queryKey: ["assgned_assets_list"] });
+      toast.success("Asset returned successfully!");
     },
     onError: (error: any) => {
       const message =
@@ -124,10 +160,14 @@ export function useAssets() {
     assets,
     isLoading,
     error,
+    assignedAssets,
+    isAssigning,
+    assignedError,
     returnedAssets,
     isReturning,
     returnedError,
     addAsset: addAsset.mutate,
     addAssignAsset: assignAsset.mutate,
+    addReturnAsset: returnAsset.mutate,
   };
 }

@@ -101,35 +101,26 @@ export function useStaff() {
     },
   });
 
-  // ✏️ PUT/PATCH update tm
-  // const updateTM = useMutation({
-  //   mutationFn: (payload: ModifyUserPayload) =>
-  //     api.put(`${TEAMMEMBER_URL}`, payload, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     }),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tms"] }),
-  // });
-
-  // const deleteMutation = useMutation({
-  //   mutationFn: async (id: number): Promise<any> => {
-  //     const res = await api.delete(`${TEAMMEMBER_URL}?id=${id}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     return res.data;
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["tms"] });
-  //   },
-  // });
+  const editStaff = useMutation({
+    mutationFn: (staffId: string) => authService.signAssetAgreement(staffId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["staff_list"] });
+      navigate({ to: "/dashboard" });
+    },
+    onError: (error: any) => {
+      console.log(error);
+      const message =
+        error?.response?.data?.message ||
+        "Adding Staff failed. Please try again.";
+      toast.error(message);
+    },
+  });
 
   return {
     staffs,
     isLoading,
     error,
     addStaff: addStaff.mutate,
-    // updateStaff: updateTM.mutate,
-    // deleteStaff: deleteMutation.mutate,
+    disableStaff: editStaff.mutate,
   };
 }

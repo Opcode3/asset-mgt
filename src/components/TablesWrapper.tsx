@@ -2,6 +2,7 @@ import { useAuthStore } from "../store/authStore";
 import { useTabStore, type TabType } from "../store/tabStore";
 import { AssetTable } from "./tables/AssetTable";
 import { AssignAssetTable } from "./tables/AssignAssetTable";
+import { ReturnedAssetTable } from "./tables/ReturnedAssetTable";
 import { StaffTable } from "./tables/StaffTable";
 
 export default function TablesWrapper() {
@@ -59,9 +60,10 @@ const loadTableUi = (tab: TabType) => {
       return <StaffTable />;
     case "assets":
       return <AssetTable />;
-
     case "assignments":
       return <AssignAssetTable />;
+    case "return":
+      return <ReturnedAssetTable />;
     default:
       return (
         <div className="p-4 text-center bg-gray-50 mt-5">No Table yet.</div>

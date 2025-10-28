@@ -56,6 +56,7 @@ export interface AssignmentResponseType {
   returnedComment: string;
   createdAt: string;
   updatedAt: string;
+  signed?: boolean;
 
   assignedTo: {
     name: string;
@@ -63,6 +64,13 @@ export interface AssignmentResponseType {
   };
 
   assignedBy: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  } | null;
+
+  collectedBy: {
     id: string;
     name: string;
     email: string;

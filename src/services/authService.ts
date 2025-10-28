@@ -44,6 +44,13 @@ export const authService = {
     return response.data;
   },
 
+  signAssetAgreement: async (id: string): Promise<UserResponseType> => {
+    const response = await api.get<UserResponseType>(
+      `/assets/sign-agreement?id=${id}`
+    );
+    return response.data;
+  },
+
   // Users
   getStaffList: async (token: string | null): Promise<UserResponseType[]> => {
     const response = await api.get<{ data: UserResponseType[] }>("/users", {

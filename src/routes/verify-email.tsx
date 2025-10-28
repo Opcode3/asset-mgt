@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import VerifyTokenPage from "../components/pages/VerifyTokenPage";
 
 export const Route = createFileRoute("/verify-email")({
   component: RouteComponent,
@@ -10,5 +11,5 @@ export const Route = createFileRoute("/verify-email")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/verify-email"!</div>;
+  return <VerifyTokenPage />;
 }

@@ -7,6 +7,7 @@ import AddStaffModal from "./modals/AddStaffModal";
 import AddAssetModal from "./modals/AddAssetModal";
 import AssignAssetModal from "./modals/AssignAssetModal";
 import ViewAssignmentModal from "./modals/ViewAssignmentModal";
+import ReturnedAssetModal from "./modals/ReturnedAssetModal";
 
 export const Modal = () => {
   const { isOpen, closeModal, which, resetWhich } = useModalStore();
@@ -49,20 +50,16 @@ export const Modal = () => {
 
 function loadUi(type: WhichType) {
   switch (type) {
-    // case "change_password":
-    //   return <ChangePasswordModal />;
-    // case "change_name":
-    //   return <ChangeNameModal />;
     case "add_staff":
       return <AddStaffModal />;
     case "add_asset":
       return <AddAssetModal />;
     case "assign_asset":
       return <AssignAssetModal />;
-
     case "view_assigned_asset":
       return <ViewAssignmentModal />;
-
+    case "return_asset":
+      return <ReturnedAssetModal />;
     default:
       break;
   }

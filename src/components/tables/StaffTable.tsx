@@ -5,11 +5,13 @@ import { DataTable } from "./DataTable";
 import type { UserResponseType } from "../../types/auth";
 import { useStaff } from "../../hooks/useStaff";
 import { capitalizeFirstLetter } from "../../utils/helpers";
+import { TableSkeleton } from "../TableSkeleton";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export function StaffTable() {
-  const { staffs, isLoading } = useStaff();
-
-  console.log({ staffs });
+  const { staffs, isLoading, disableStaff } = useStaff();
+  const queryClient = useQueryClient();
 
   const columns = useMemo<ColumnDef<UserResponseType>[]>(
     () => [
@@ -77,7 +79,7 @@ export function StaffTable() {
       {
         id: "actions",
         header: "",
-        cell: () => {
+        cell: ({ row }) => {
           return (
             <div className="flex justify-end gap-2 font-medium text-sm ">
               <button
@@ -87,8 +89,29 @@ export function StaffTable() {
                   // openModal();
                 }}
                 className="py-2 px-2 rounded-md"
+              ></button>
+
+              <button
+                onClick={() => {
+                  disableStaff(row.original._id, {
+                    onSuccess: () => {
+                      queryClient.invalidateQueries({
+                        queryKey: ["staff_list"],
+                      });
+                      toast.success("Process was successful!");
+                    },
+                    onError: (error: any) => {
+                      console.log(error);
+                      const message =
+                        error?.response?.data?.message ||
+                        "Transaction failed. Please try again.";
+                      toast.error(message);
+                    },
+                  });
+                }}
+                className="py-2 px-2 rounded-md bg-red-500 text-white"
               >
-                Edit Profile
+                {row.original.status == "inactive" ? "Enable" : "Disable"}
               </button>
             </div>
           );
@@ -98,7 +121,9 @@ export function StaffTable() {
     []
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <TableSkeleton rows={3} columns={6} />;
+  }
 
   return (
     <div className=" flex flex-col gap-6 ">

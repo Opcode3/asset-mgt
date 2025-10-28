@@ -1,4 +1,8 @@
-import type { AssetPayload, AssignmentPayload } from "../hooks/useAssets";
+import type {
+  AssetPayload,
+  AssignmentPayload,
+  ReturnAssignmentPayload,
+} from "../hooks/useAssets";
 import { api } from "../lib/axios";
 import type { AssetResponseType, AssignmentResponseType } from "../types/asset";
 
@@ -74,10 +78,26 @@ export const assetService = {
   assignAsset: async (
     payload: AssignmentPayload,
     token: string | null
-  ): Promise<AssetResponseType> => {
-    const response = await api.post<AssetResponseType>(
+  ): Promise<AssignmentResponseType> => {
+    const response = await api.post<AssignmentResponseType>(
       `/assets/assign`,
       // `/assets/${id}/assign`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  },
+
+  returnedAsset: async (
+    payload: ReturnAssignmentPayload,
+    token: string | null
+  ): Promise<AssignmentResponseType> => {
+    const response = await api.post<AssignmentResponseType>(
+      `/assets/return`,
       payload,
       {
         headers: {
@@ -96,6 +116,23 @@ export const assetService = {
 
     const response = await api.get<AssignmentResponseType[]>(
       "/assets/assigned",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  },
+
+  getAllReturnedAssets: async (
+    token: string | null
+  ): Promise<AssignmentResponseType[]> => {
+    console.log(`Bearer ${token}`);
+
+    const response = await api.get<AssignmentResponseType[]>(
+      "/assets/returned",
       {
         headers: {
           Authorization: `Bearer ${token}`,

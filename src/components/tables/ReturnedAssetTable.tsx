@@ -8,10 +8,11 @@ import type { AssignmentResponseType } from "../../types/asset";
 import { useModalStore } from "../../store/modalStore";
 import { TableSkeleton } from "../TableSkeleton";
 
-export function AssignAssetTable() {
-  const { assignedAssets, isAssigning } = useAssets();
+export function ReturnedAssetTable() {
+  const { returnedAssets, isReturning } = useAssets();
   const { openModal, setWhich, setData } = useModalStore();
 
+  console.log({ returnedAssets });
   const columns = useMemo<ColumnDef<AssignmentResponseType>[]>(
     () => [
       {
@@ -78,6 +79,15 @@ export function AssignAssetTable() {
         ),
       },
       {
+        id: "collectedBy.name",
+        header: "Collected By",
+        cell: ({ row }) => (
+          <div className="flex justify-start gap-2 font-medium text-sm px-2 capitalize">
+            {row.original.collectedBy?.name || "N/A"}
+          </div>
+        ),
+      },
+      {
         id: "createdAt",
         header: "Issued Date",
         cell: ({ row }) => (
@@ -87,11 +97,20 @@ export function AssignAssetTable() {
         ),
       },
       {
+        id: "createdAt",
+        header: "Collected Date",
+        cell: ({ row }) => (
+          <div className="flex justify-start gap-2 font-medium text-sm px-2 capitalize">
+            {formatReadableDate(row.original.updatedAt)}
+          </div>
+        ),
+      },
+      {
         id: "actions",
         header: "",
         cell: ({ row }) => {
           return (
-            <div className="flex justify-end gap-2 font-medium text-sm">
+            <div className="flex justify-end gap-2 font-medium text-sm ">
               <button
                 onClick={() => {
                   setData(row.original);
@@ -102,17 +121,6 @@ export function AssignAssetTable() {
               >
                 See more
               </button>
-
-              <button
-                onClick={() => {
-                  setData(row.original);
-                  setWhich("return_asset"); // new modal or action
-                  openModal();
-                }}
-                className="py-2 px-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white"
-              >
-                Return
-              </button>
             </div>
           );
         },
@@ -121,13 +129,13 @@ export function AssignAssetTable() {
     []
   );
 
-  if (isAssigning) {
+  if (isReturning) {
     return <TableSkeleton rows={4} columns={7} />;
   }
 
   return (
     <div className=" flex flex-col gap-6 ">
-      <DataTable data={assignedAssets ?? []} columns={columns} />
+      <DataTable data={returnedAssets ?? []} columns={columns} />
     </div>
   );
 }
