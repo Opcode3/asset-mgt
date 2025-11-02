@@ -5,6 +5,7 @@ export type WhichType =
   | "add_staff"
   | "assign_asset"
   | "view_assigned_asset"
+  | "view_asset"
   | "return_asset"
   | null;
 interface ModalStore {

@@ -8,6 +8,7 @@ import AddAssetModal from "./modals/AddAssetModal";
 import AssignAssetModal from "./modals/AssignAssetModal";
 import ViewAssignmentModal from "./modals/ViewAssignmentModal";
 import ReturnedAssetModal from "./modals/ReturnedAssetModal";
+import ViewAssetModal from "./modals/ViewAssetModal";
 
 export const Modal = () => {
   const { isOpen, closeModal, which, resetWhich } = useModalStore();
@@ -58,6 +59,8 @@ function loadUi(type: WhichType) {
       return <AssignAssetModal />;
     case "view_assigned_asset":
       return <ViewAssignmentModal />;
+    case "view_asset":
+      return <ViewAssetModal />;
     case "return_asset":
       return <ReturnedAssetModal />;
     default:

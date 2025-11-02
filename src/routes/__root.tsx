@@ -3,7 +3,12 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 const RootLayout = () => (
   <>
-    <Outlet />
+    <div className="hidden lg:block">
+      <Outlet />
+    </div>
+    <div className="flex items-center justify-center px-5 text-center text-lg h-screen lg:hidden">
+      Please use a device with a larger screen to access this application.
+    </div>
   </>
 );
 

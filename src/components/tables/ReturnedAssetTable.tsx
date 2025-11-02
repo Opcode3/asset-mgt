@@ -58,7 +58,7 @@ export function ReturnedAssetTable() {
 
       {
         accessorKey: "assetNo",
-        header: "Asset Number",
+        header: "Asset Name",
         cell: ({ row }) => (
           <div className="flex items-center gap-2 text-green-600">
             <button>

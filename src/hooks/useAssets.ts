@@ -122,6 +122,23 @@ export function useAssets() {
     },
   });
 
+  const updateAssetStatus = useMutation({
+    mutationFn: (payload: { status: string; id: string }) =>
+      assetService.updateAssetStatus(payload.id, payload.status, token),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["assets_list"] });
+      toast.success("Asset updated successfully!");
+      setTab("assets");
+      navigate({ to: "/dashboard" });
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        "Failed to create asset. Please try again.";
+      toast.error(message);
+    },
+  });
+
   // 🧾 Assign asset
   const assignAsset = useMutation({
     mutationFn: (payload: AssignmentPayload) =>
@@ -156,6 +173,27 @@ export function useAssets() {
     },
   });
 
+  const deleteAsset = useMutation({
+    mutationFn: (assetId: string) => assetService.deleteAsset(assetId, token),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ["assgned_assets_list"] });
+      queryClient.invalidateQueries({ queryKey: ["assets_list"] });
+      toast.success("Asset deleted successfully!");
+      console.log(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        "Failed to assign asset. Please try again.";
+      toast.error(message);
+
+      console.log(error);
+    },
+    onSettled: (res) => {
+      console.log(res);
+    },
+  });
+
   return {
     assets,
     isLoading,
@@ -169,5 +207,7 @@ export function useAssets() {
     addAsset: addAsset.mutate,
     addAssignAsset: assignAsset.mutate,
     addReturnAsset: returnAsset.mutate,
+    editAssetStatus: updateAssetStatus.mutate,
+    deleteAsset: deleteAsset.mutate,
   };
 }

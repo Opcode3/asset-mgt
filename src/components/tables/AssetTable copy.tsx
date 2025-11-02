@@ -2,17 +2,17 @@ import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
 
-import { capitalizeFirstLetter, formatReadableDate } from "../../utils/helpers";
+import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useAssets } from "../../hooks/useAssets";
-import type { AssignmentResponseType } from "../../types/asset";
+import type { AssetResponseType } from "../../types/asset";
 import { useModalStore } from "../../store/modalStore";
 import { TableSkeleton } from "../TableSkeleton";
 
-export function AssignAssetTable() {
-  const { assignedAssets, isAssigning } = useAssets();
+export function AssetTable() {
+  const { assets, isLoading } = useAssets();
   const { openModal, setWhich, setData } = useModalStore();
 
-  const columns = useMemo<ColumnDef<AssignmentResponseType>[]>(
+  const columns = useMemo<ColumnDef<AssetResponseType>[]>(
     () => [
       {
         id: "sn",
@@ -21,8 +21,8 @@ export function AssignAssetTable() {
         size: 50, // optional
       },
       {
-        accessorKey: "name",
-        header: "Name",
+        accessorKey: "assetNo",
+        header: "Asset Name",
         cell: ({ row }) => (
           <div
             className="flex items-center gap-3"
@@ -31,87 +31,86 @@ export function AssignAssetTable() {
               //   openModal();
             }}
           >
-            <p className=" capitalize min-w-[150px]">
-              {row.original.assignedTo.name}{" "}
-            </p>
-          </div>
-        ),
-      },
-      {
-        accessorKey: "email",
-        header: "Email Address",
-        cell: ({ row }) => (
-          <div
-            className="flex items-center gap-3"
-            onClick={() => {
-              //   setWhich("show_content");
-              //   openModal();
-            }}
-          >
-            <p className=" capitalize min-w-[150px]">
-              {capitalizeFirstLetter(row.original.assignedTo.email)}{" "}
-            </p>
+            <p className=" capitalize min-w-[150px]">{row.original.assetNo} </p>
           </div>
         ),
       },
 
       {
-        accessorKey: "assetNo",
-        header: "Asset Name",
+        accessorKey: "assetType",
+        header: "Asset Type",
         cell: ({ row }) => (
           <div className="flex items-center gap-2 text-green-600">
             <button>
               <p className="">
-                {capitalizeFirstLetter(row.original.asset?.assetNo || "N/A")}
+                {capitalizeFirstLetter(row.original.assetType)}
               </p>
             </button>
           </div>
         ),
       },
       {
-        id: "assignedBy.name",
-        header: "Assigned By",
+        id: "serialNo",
+        header: "serial Number",
         cell: ({ row }) => (
           <div className="flex justify-start gap-2 font-medium text-sm px-2 capitalize">
-            {row.original.assignedBy?.name || "N/A"}
+            {row.original.serialNo}
           </div>
         ),
       },
       {
-        id: "createdAt",
-        header: "Issued Date",
+        id: "created_by",
+        header: "Created By",
+        cell: ({ row }) => {
+          const createdBy = row.original.createdBy;
+          const hasCreator = !!createdBy;
+
+          return (
+            <div className="flex justify-start gap-2 font-medium text-sm px-2">
+              {hasCreator ? (
+                <span>{createdBy.name || "Unnamed"}</span>
+              ) : (
+                <span className="text-gray-400 italic">N/A</span>
+              )}
+            </div>
+          );
+        },
+      },
+      {
+        id: "status",
+        header: "Status",
         cell: ({ row }) => (
           <div className="flex justify-start gap-2 font-medium text-sm px-2 capitalize">
-            {formatReadableDate(row.original.createdAt)}
+            {row.original.status}
           </div>
         ),
       },
+
       {
         id: "actions",
         header: "",
         cell: ({ row }) => {
           return (
-            <div className="flex justify-end gap-2 font-medium text-sm">
+            <div className="flex justify-end gap-2 font-medium text-sm ">
               <button
                 onClick={() => {
+                  setWhich("view_asset");
                   setData(row.original);
-                  setWhich("view_assigned_asset");
                   openModal();
                 }}
                 className="py-2 px-2 rounded-md bg-blue-500 text-white"
               >
-                See more
+                Edit Asset
               </button>
-
               <button
                 onClick={() => {
                   setData(row.original);
-                  setWhich("return_asset"); // new modal or action
+                  setWhich("assign_asset");
                   openModal();
                 }}
-                className="py-2 px-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white"
+                className="py-2 px-2 rounded-md bg-green-500 text-white"
               >
-                Return
+                Assign Asset
               </button>
             </div>
           );
@@ -121,13 +120,13 @@ export function AssignAssetTable() {
     []
   );
 
-  if (isAssigning) {
+  if (isLoading) {
     return <TableSkeleton rows={4} columns={7} />;
   }
 
   return (
     <div className=" flex flex-col gap-6 ">
-      <DataTable data={assignedAssets ?? []} columns={columns} />
+      <DataTable data={assets ?? []} columns={columns} />
     </div>
   );
 }

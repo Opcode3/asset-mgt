@@ -56,7 +56,7 @@ export default function ReturnedAssetModal() {
 
   const statusOptions = [
     { value: "", label: "Select an option" },
-    ...["available", "assigned", "maintenance", "retired"].map((status) => ({
+    ...["available", "maintenance", "retired"].map((status) => ({
       value: status,
       label: status.charAt(0).toUpperCase() + status.slice(1), // Capitalizes first letter
     })),
@@ -74,7 +74,7 @@ export default function ReturnedAssetModal() {
         {data && (
           <div className="pb-3">
             <p className="font-medium">
-              Assigning Asset Number: {"assetNo" in data ? data?.assetNo : ""}
+              Assigning Asset Name: {"assetNo" in data ? data?.assetNo : ""}
             </p>
           </div>
         )}

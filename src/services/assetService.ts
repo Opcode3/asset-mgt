@@ -35,15 +35,22 @@ export const assetService = {
   },
 
   // ✅ Get a single asset by ID
-  getAssetById: async (
-    id: string,
-    token: string | null
-  ): Promise<AssetResponseType> => {
-    const response = await api.get<AssetResponseType>(`/assets/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // getAssetById: async (
+  //   id: string,
+  //   token: string | null
+  // ): Promise<AssetResponseType> => {
+  //   const response = await api.get<AssetResponseType>(`/assets/${id}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   return response.data;
+  // },
+
+  getAssetById: async (id: string): Promise<AssetResponseType> => {
+    const response = await api.get<AssetResponseType>(`/assets/${id}`);
+
+    console.log({ response });
     return response.data;
   },
 
@@ -65,7 +72,27 @@ export const assetService = {
     return response.data;
   },
 
+  updateAssetStatus: async (
+    id: string,
+    status: string,
+    token: string | null
+  ): Promise<AssetResponseType> => {
+    const response = await api.patch<AssetResponseType>(
+      `/assets/${id}/status`,
+      {
+        status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  },
+
   // ✅ Delete an asset
+
   deleteAsset: async (id: string, token: string | null): Promise<void> => {
     await api.delete(`/assets/${id}`, {
       headers: {
@@ -73,6 +100,9 @@ export const assetService = {
       },
     });
   },
+  // deleteAsset: async (id: string): Promise<void> => {
+  //   await api.delete(`/assets/${id}`);
+  // },
 
   // ✅ Assign asset to a user
   assignAsset: async (

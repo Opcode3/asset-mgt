@@ -20,7 +20,7 @@ export default function TablesWrapper() {
   ];
 
   return (
-    <div className="py-9 w-full px-[140px] mx-auto  ">
+    <div className="py-9 w-full px-[45px] 2xl:px-[140px] mx-auto  ">
       <div className="pb-4 bg-white rounded-md shadow overflow-hidden">
         <ul className="flex items-center text-gray-600 bg-gray-50 font-medium w-fit">
           {tabs

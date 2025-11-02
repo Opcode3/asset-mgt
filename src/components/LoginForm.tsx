@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useLogin } from "../hooks/useAuth";
 import type { LoginCredentials } from "../types/auth";
 import Button from "./forms/Button";
+import { useTabStore } from "../store/tabStore";
+import { useModalStore } from "../store/modalStore";
 
 export const LoginForm: React.FC = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -10,10 +12,14 @@ export const LoginForm: React.FC = () => {
   });
 
   const loginMutation = useLogin();
+  const { resetTab } = useTabStore();
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     loginMutation.mutate(credentials);
+    resetTab();
+    closeModal();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +38,7 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

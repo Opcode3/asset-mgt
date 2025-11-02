@@ -67,7 +67,7 @@ export default function AssignAssetModal() {
         {data && (
           <div className="pb-3">
             <p className="font-medium">
-              Assigning Asset Number: {"assetNo" in data ? data?.assetNo : ""}
+              Assigning Asset Name: {"assetNo" in data ? data?.assetNo : ""}
             </p>
           </div>
         )}

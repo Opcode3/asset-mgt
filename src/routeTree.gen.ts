@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AssetAgreementRouteImport } from './routes/asset-agreement'
+import { Route as AssetRouteImport } from './routes/asset'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 
@@ -22,6 +23,11 @@ const VerifyEmailRoute = VerifyEmailRouteImport.update({
 const AssetAgreementRoute = AssetAgreementRouteImport.update({
   id: '/asset-agreement',
   path: '/asset-agreement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetRoute = AssetRouteImport.update({
+  id: '/asset',
+  path: '/asset',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/asset': typeof AssetRoute
   '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/asset': typeof AssetRoute
   '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -50,20 +58,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/asset': typeof AssetRoute
   '/asset-agreement': typeof AssetAgreementRoute
   '/verify-email': typeof VerifyEmailRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/asset-agreement' | '/verify-email' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/asset'
+    | '/asset-agreement'
+    | '/verify-email'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/asset-agreement' | '/verify-email' | '/dashboard'
-  id: '__root__' | '/' | '/asset-agreement' | '/verify-email' | '/dashboard/'
+  to: '/' | '/asset' | '/asset-agreement' | '/verify-email' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/asset'
+    | '/asset-agreement'
+    | '/verify-email'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssetRoute: typeof AssetRoute
   AssetAgreementRoute: typeof AssetAgreementRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -85,6 +106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssetAgreementRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/asset': {
+      id: '/asset'
+      path: '/asset'
+      fullPath: '/asset'
+      preLoaderRoute: typeof AssetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +132,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssetRoute: AssetRoute,
   AssetAgreementRoute: AssetAgreementRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   DashboardIndexRoute: DashboardIndexRoute,

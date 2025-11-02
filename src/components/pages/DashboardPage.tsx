@@ -26,9 +26,12 @@ export default function DashboardPage() {
 
   return (
     <div className="">
-      <header className="flex items-center justify-between p-4 max-w-full border-b border-b-gray-200 px-[120px] mx-auto">
-        <div className="bg-black/80 text-white py-1 px-2 cursor-pointer text-2xl rounded-sm">
+      <header className="flex items-center justify-between p-4 max-w-full border-b border-b-gray-200 px-[40px] 2xl:px-[120px] mx-auto">
+        {/* <div className="bg-black/80 text-white py-1 px-2 cursor-pointer text-2xl rounded-sm">
           [asset]
+        </div> */}
+        <div className=" bg-red-400 flex items-center">
+          <img src="/logo.png" alt="logo" className="w-32" />
         </div>
         <Button
           text="Logout"
@@ -37,10 +40,10 @@ export default function DashboardPage() {
           bgColor="bg-red-600"
         />
       </header>
-      <div className="flex items-center justify-between py-9 w-full px-[140px] mx-auto">
+      <div className="flex items-center justify-between py-9 w-full px-[45px] 2xl:px-[140px] mx-auto">
         <div className="">
           <h2 className="font-semibold text-xl">
-            Hola, {getSingleName(user.name)}
+            Hallo, {getSingleName(user.name)}
           </h2>
         </div>
         <div className="flex items-center gap-2">

@@ -7,7 +7,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="p-2">
+    <div className=" bg-gray-100 min-h-screen">
+      <div className="bg-white px-14 py-4">
+        <img src="/logo.png" alt="logo" className="w-34" />
+      </div>
       <LoginForm />
     </div>
   );

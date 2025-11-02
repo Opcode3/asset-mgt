@@ -83,7 +83,7 @@ export default function AddAssetModal() {
         <div className="grid md:grid-cols-2 gap-2">
           <Input
             type="text"
-            label="Asset Number"
+            label="Asset Name"
             name="assetNo"
             value={formData.assetNo}
             onChange={handleChange}
