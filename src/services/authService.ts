@@ -36,11 +36,9 @@ export const authService = {
   },
 
   verifyEmail: async (token: string): Promise<UserResponseType> => {
-    const response = await api.post<UserResponseType>(
+    const response = await api.get<UserResponseType>(
       `/auth/verify-email?token=${token}`
     );
-
-    console.log(`/auth/verify-email?token=${token}`);
     return response.data;
   },
 

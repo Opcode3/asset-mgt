@@ -25,6 +25,8 @@ export default function VerifyTokenPage() {
         })
         .catch((err) => {
           setIsLoading(false);
+
+          console.log(err);
           const errorMessage =
             err?.response?.data?.message ||
             "Failed to verify account. Please try again later.";

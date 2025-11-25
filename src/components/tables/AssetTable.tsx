@@ -164,7 +164,10 @@ export function AssetTable() {
         </button>
       </div>
 
-      <DataTable data={assets ?? []} columns={columns} />
+      <DataTable
+        data={assets?.filter((item) => item.status != "assigned") ?? []}
+        columns={columns}
+      />
     </div>
   );
 }
